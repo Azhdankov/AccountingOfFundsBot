@@ -1,0 +1,11 @@
+-- CREATE TABLE IF NOT EXISTS DATA.USERS (
+--                                           id varchar PRIMARY KEY NOT NULL
+-- );
+--
+-- CREATE TABLE IF NOT EXISTS DATA.CATEGORYINFO (
+--                                                id varchar PRIMARY KEY NOT NULL,
+--                                                chatID varchar NOT NULL,
+--                                                categoryKey varchar NOT NULL,
+--                                                readableCategoryName varchar,
+--                                                amount double
+-- );

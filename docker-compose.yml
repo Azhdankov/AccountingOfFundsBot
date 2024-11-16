@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    image: accountingoffunds
+    container_name: accountingoffunds
+    ports:
+      - "8080:8080"
+    env_file:
+      - "/home/AccountingOfFundsConfig.env"
+    networks:
+      - external_network
+
+networks:
+  external_network:
+    name: dbdocker_commonNetwork
+    external: true
