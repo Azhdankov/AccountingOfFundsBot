@@ -26,7 +26,7 @@ public class SaveNewCategoryCommandImpl extends CommandHelper implements Command
 
         String readableCategoryName = update.getMessage().getText();
 
-        Pattern pattern = Pattern.compile("[^а-яa-z0-9/.,!№()\\s]");
+        Pattern pattern = Pattern.compile("[^а-яА-Яa-zA-Z0-9/.,!№()\\s]");
         Matcher matcher = pattern.matcher(readableCategoryName);
 
         if (matcher.find()) {
