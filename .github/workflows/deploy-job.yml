@@ -5,13 +5,9 @@ on:
     branches: [ "master" ]
 
 jobs:
-#  prepare-environment:
-#    runs-on: self-hosted
-#    steps:
-#      - name: Stop and remove containers, networks
-#        run: docker compose down
-#      - name: Remove unused data
-#        run: docker system prune -a -f
+  prepare-environment:
+    runs-on: self-hosted
+
 
   deploy:
     runs-on: self-hosted
