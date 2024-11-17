@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
+import ru.azhdankov.accountingOfFunds.command.KeyboardHelper;
 import ru.azhdankov.accountingOfFunds.messageDictionary.CommandName;
 import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
 
@@ -15,8 +16,9 @@ public class AllCategoriesEnteredCommandImpl extends CommandHelper implements Co
         sendMessage.setChatId(chatID);
 
         sendMessage.setText(MessageName.AFTER_CATEGORIES_ADDED_MESSAGE.getMessageName());
+        KeyboardHelper keyboardHelper = KeyboardHelper.builder().build();
         sendMessage.setReplyMarkup(
-                getReplyKeyboardMarkup(
+                keyboardHelper.getReplyKeyboardMarkup(
                         CommandName.ADD_NEW_CATEGORY_COMMAND.getCommandName(),
                         CommandName.PRINT_ALL_CATEGORY_TO_SCREEN_COMMAND.getCommandName(),
                         CommandName.ADD_SUM_TO_CATEGORY_COMMAND.getCommandName(),

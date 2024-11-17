@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum MessageName {
     WAIT_NEW_CATEGORY_MESSAGE("Ожидаю введения новой категории"),
+    NO_CATEGORY_FOR_RENAME_MESSAGE("Нет категорий для переименования"),
     INVALID_CATEGORY_NAME("Присутствуют невалидные символы в названии категории"),
     THERE_ARE_NO_CATEGORIES_TO_SHOW("Нет трат для отображения"),
     NO_CATEGORY_FOR_ADD_SUM_MESSAGE("Нет категории для добавления суммы трат"),

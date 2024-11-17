@@ -1,11 +1,13 @@
 package ru.azhdankov.accountingOfFunds.command.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
+import ru.azhdankov.accountingOfFunds.command.KeyboardHelper;
 import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
 
 public class ClearAllDataCommandImpl extends CommandHelper implements Command<SendMessage> {
@@ -25,13 +27,17 @@ public class ClearAllDataCommandImpl extends CommandHelper implements Command<Se
         yesNoAnswers.add("Нет");
         String[] yesNoAnswersToInlineKeyboard = yesNoAnswers.toArray(new String[0]);
 
-        List<String> yesNoKeys = new ArrayList<>();
-        yesNoKeys.add("yes");
-        yesNoKeys.add("no");
+        HashMap<String,String> yesNoKeys = new HashMap<>();
+        yesNoKeys.put("Да", "yes");
+        yesNoKeys.put("Нет", "no");
+
+        KeyboardHelper keyboardHelper = KeyboardHelper.builder()
+                .callBackDataPrefix("ApproveForClearData")
+                .callBackDataMap(yesNoKeys)
+                .build();
 
         sendMessage.setReplyMarkup(
-                getInlineKeyboardMarkup(
-                        "ApproveForClearData", yesNoKeys, null, yesNoAnswersToInlineKeyboard));
+                keyboardHelper.getInlineKeyboardMarkup(yesNoAnswersToInlineKeyboard));
 
         return sendMessage;
     }
