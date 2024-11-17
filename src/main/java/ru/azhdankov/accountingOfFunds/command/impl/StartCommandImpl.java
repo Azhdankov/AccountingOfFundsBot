@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
+import ru.azhdankov.accountingOfFunds.command.KeyboardHelper;
 import ru.azhdankov.accountingOfFunds.messageDictionary.CommandName;
 import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatID;
@@ -17,8 +18,10 @@ public class StartCommandImpl extends CommandHelper implements Command<SendMessa
         sendMessage.setChatId(chatID);
 
         sendMessage.setText(MessageName.FIRST_MESSAGE_BOT_MESSAGE.getMessageName());
+        KeyboardHelper keyboardHelper = KeyboardHelper.builder().build();
+
         sendMessage.setReplyMarkup(
-                getReplyKeyboardMarkup(
+                keyboardHelper.getReplyKeyboardMarkup(
                         CommandName.ALL_CATEGORIES_ENTERED_COMMAND.getCommandName()));
 
         CallbackDataByChatID callbackDataByChatID =

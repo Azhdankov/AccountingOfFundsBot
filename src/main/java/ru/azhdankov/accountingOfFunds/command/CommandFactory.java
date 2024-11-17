@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.botService.BotService;
-import ru.azhdankov.accountingOfFunds.command.callback.AddSumCallbackImpl;
-import ru.azhdankov.accountingOfFunds.command.callback.ApproveForClearDataCallbackImpl;
-import ru.azhdankov.accountingOfFunds.command.callback.CheckRenamedCategoryCallbackImpl;
-import ru.azhdankov.accountingOfFunds.command.callback.ClearDataCallbackImpl;
+import ru.azhdankov.accountingOfFunds.command.callback.*;
 import ru.azhdankov.accountingOfFunds.command.impl.*;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatIDDAO;
 
@@ -38,6 +35,9 @@ public class CommandFactory {
                         break;
                     case String s when s.startsWith("Remove"):
                         commandList.add(new ClearDataCallbackImpl());
+                        break;
+                    case String s when s.startsWith("NextPage_") || s.startsWith("PreviousPage_"):
+                        commandList.add(new NextPreviousInlineKeyboardCallbackImpl());
                         break;
                     default:
                         break;
