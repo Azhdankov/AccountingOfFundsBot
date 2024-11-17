@@ -59,6 +59,7 @@ public class ShowAllCategoriesCommandImpl extends CommandHelper
 
         String queryCategories = categories.substring(0, categories.length() - 1);
         String queryAmounts = amounts.substring(0, amounts.length() - 1);
+
         String queryParams = URLDecoder.decode(queryCategories, StandardCharsets.UTF_8);
         String queryValues = URLDecoder.decode(queryAmounts, StandardCharsets.UTF_8);
 
