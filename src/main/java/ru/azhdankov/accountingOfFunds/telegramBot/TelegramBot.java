@@ -36,7 +36,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Autowired private UserDAO userDAO;
 
     @Autowired private CommandWrapper commandWrapper;
-    private final ConcurrentHashMap<String, Integer> editMessageIDByChatID = new ConcurrentHashMap<>();
 
     public TelegramBot(BotConfig botConfig) {
         super(botConfig.getBotToken());
@@ -48,28 +47,23 @@ public class TelegramBot extends TelegramLongPollingBot {
         new Thread(
                         () -> {
                             List<Command<?>> commandList = commandWrapper.getSendObject(update);
-                            AtomicReference<Integer> messageId = new AtomicReference<>(0);
-
+                            Integer messageID = 0;
                             for (Command<?> e : commandList) {
                                 try {
                                     Object o = e.run(update);
                                     if (o instanceof SendMessage sendMessage) {
-                                        messageId.set(execute(sendMessage).getMessageId());
-                                        if (update.hasMessage()) {
-                                            editMessageIDByChatID.put(update.getMessage().getChatId().toString(), messageId.get());
-                                        }
+                                        messageID = execute(sendMessage).getMessageId();
                                         if (commandList.size() > 1) {
                                             Thread.sleep(1800);
                                         }
                                     }
                                     if (o instanceof EditMessageText editMessageText) {
-                                        editMessageText.setMessageId(messageId.get());
+                                        editMessageText.setMessageId(messageID);
                                         execute(editMessageText);
                                     }
                                     if (o instanceof EditMessageReplyMarkup editMessageReplyMarkup) {
-                                        editMessageReplyMarkup.setMessageId(editMessageIDByChatID.get(
-                                                update.getCallbackQuery().getMessage().getChatId().toString()
-                                        ));
+                                        messageID = update.getCallbackQuery().getMessage().getMessageId();
+                                        editMessageReplyMarkup.setMessageId(messageID);
                                         execute(editMessageReplyMarkup);
                                     }
                                 } catch (TelegramApiException | InterruptedException ex) {

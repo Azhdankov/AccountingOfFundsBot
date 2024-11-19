@@ -22,6 +22,7 @@ public class ClearAllDataCommandImpl extends CommandHelper implements Command<Se
 
         sendMessage.setText(MessageName.ARE_YOU_SURE_DELETE_ALL_AMOUNTS_MESSAGE.getMessageName());
 
+        // нужен рефакторинг
         List<String> yesNoAnswers = new ArrayList<>();
         yesNoAnswers.add("Да");
         yesNoAnswers.add("Нет");
@@ -30,6 +31,7 @@ public class ClearAllDataCommandImpl extends CommandHelper implements Command<Se
         HashMap<String,String> yesNoKeys = new HashMap<>();
         yesNoKeys.put("Да", "yes");
         yesNoKeys.put("Нет", "no");
+        // нужен рефакторинг
 
         KeyboardHelper keyboardHelper = KeyboardHelper.builder()
                 .callBackDataPrefix("ApproveForClearData")

@@ -39,6 +39,9 @@ public class CommandFactory {
                     case String s when s.startsWith("NextPage_") || s.startsWith("PreviousPage_"):
                         commandList.add(new NextPreviousInlineKeyboardCallbackImpl());
                         break;
+                    case String s when s.startsWith("ChangeMode"):
+                        commandList.add(new ChangeModeCallbackImpl());
+                        break;
                     default:
                         break;
                 }
@@ -47,6 +50,9 @@ public class CommandFactory {
                 switch (message) {
                     case "/start":
                         commandList.add(new StartCommandImpl());
+                        break;
+                    case "/mode":
+                        commandList.add(new ChangeModeCommandImpl());
                         break;
                     case String s when s.startsWith("Все категории введены"):
                         commandList.add(new AllCategoriesEnteredCommandImpl());

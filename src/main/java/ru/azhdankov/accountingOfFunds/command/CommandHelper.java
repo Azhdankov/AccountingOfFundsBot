@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vdurmont.emoji.EmojiParser;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import ru.azhdankov.accountingOfFunds.botService.BotService;
 
 @Setter
+@Getter
 @RequiredArgsConstructor
 public abstract class CommandHelper {
 

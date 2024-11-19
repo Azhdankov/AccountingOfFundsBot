@@ -17,6 +17,13 @@ public class BotService {
     @Autowired private CallbackDataByChatIDDAO callbackDataByChatIDDAODao;
     @Autowired private CategoryInfoDAO categoryInfoDAO;
 
+    private boolean isSingleMode() {
+        return false;
+    }
+
+    public User findUserByChatID(String chatID) {
+        return userDao.findById(chatID).orElse(null);
+    }
     public void saveUser(User user) {
         userDao.save(user);
     }
