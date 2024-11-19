@@ -13,6 +13,7 @@ public class ShowPreLoadEmojiImpl extends CommandHelper implements Command<SendM
         String chatID = update.getMessage().getChatId().toString();
         sendMessage.setChatId(chatID);
         sendMessage.setText(EmojiParser.parseToUnicode(":card_index_dividers:"));
+        botService.deleteCallbackDataByChatID(chatID);
         return sendMessage;
     }
 }

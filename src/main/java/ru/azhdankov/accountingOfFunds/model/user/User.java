@@ -16,4 +16,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User {
     @Id private String id;
+    private String pairID;
+    private boolean isSingleMode;
 }

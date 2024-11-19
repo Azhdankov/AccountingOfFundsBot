@@ -92,8 +92,7 @@ public class KeyboardHelper {
             inlineKeyboardButton.setCallbackData("NextPage_"+callBackDataPrefix+":"+MAX_BUTTONS);
 
             inlineKeyboardButtons.add(inlineKeyboardButton);
-        }
-        if (startIndex != 0 && endIndex != 0 && (buttonsText.length != endIndex)) {
+        } else if (startIndex != 0 && endIndex != 0 && (buttonsText.length != endIndex)) {
             inlineKeyboardButtons = new ArrayList<>();
             inlineKeyboardRows.add(inlineKeyboardButtons);
 
@@ -106,8 +105,7 @@ public class KeyboardHelper {
 
             inlineKeyboardButtons.add(previousButton);
             inlineKeyboardButtons.add(nextButton);
-        }
-        if (buttonsText.length - startIndex < MAX_BUTTONS && buttonsText.length > MAX_BUTTONS) {
+        } else if (buttonsText.length - startIndex <= MAX_BUTTONS && buttonsText.length > MAX_BUTTONS) {
             inlineKeyboardButtons = new ArrayList<>();
             inlineKeyboardRows.add(inlineKeyboardButtons);
 
