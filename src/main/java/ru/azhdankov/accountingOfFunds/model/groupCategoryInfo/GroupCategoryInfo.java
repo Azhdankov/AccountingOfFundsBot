@@ -1,18 +1,15 @@
-package ru.azhdankov.accountingOfFunds.model.categoryInfo;
+package ru.azhdankov.accountingOfFunds.model.groupCategoryInfo;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"chatID", "categoryKey"})})
-public class CategoryInfo {
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"categoryKey", "pairID"})})
+public class GroupCategoryInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -20,4 +17,5 @@ public class CategoryInfo {
     private String categoryKey;
     private String readableCategoryName;
     private Double amount;
+    private String pairID;
 }

@@ -3,18 +3,23 @@ package ru.azhdankov.accountingOfFunds.command;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.botService.BotService;
 import ru.azhdankov.accountingOfFunds.command.callback.*;
 import ru.azhdankov.accountingOfFunds.command.impl.*;
+import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatIDDAO;
 
 @Component
 public class CommandFactory {
 
-    @Autowired private CallbackDataByChatIDDAO callbackDataByChatIDDAO;
+    @Autowired
+    private CallbackDataByChatIDDAO callbackDataByChatIDDAO;
 
     public List<Command<?>> getCommandList(Update update, BotService botService) {
 
@@ -41,6 +46,7 @@ public class CommandFactory {
                         break;
                     case String s when s.startsWith("ChangeMode"):
                         commandList.add(new ChangeModeCallbackImpl());
+                        commandList.add(new ChangeModeEmojiCallbackImpl());
                         break;
                     default:
                         break;
@@ -51,8 +57,14 @@ public class CommandFactory {
                     case "/start":
                         commandList.add(new StartCommandImpl());
                         break;
+                    case String s when s.startsWith("/start"):
+                        commandList.add(new StartFromLinkCommandImpl());
+                        break;
                     case "/mode":
                         commandList.add(new ChangeModeCommandImpl());
+                        break;
+                    case "/help":
+                        commandList.add(new HelpCommandImpl());
                         break;
                     case String s when s.startsWith("Все категории введены"):
                         commandList.add(new AllCategoriesEnteredCommandImpl());

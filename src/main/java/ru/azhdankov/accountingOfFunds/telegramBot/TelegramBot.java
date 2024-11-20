@@ -53,6 +53,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                                     Object o = e.run(update);
                                     if (o instanceof SendMessage sendMessage) {
                                         messageID = execute(sendMessage).getMessageId();
+                                        /* надо что-то придумать с тем, чтобы уходить в sleep только с нужными командами * */
                                         if (commandList.size() > 1) {
                                             Thread.sleep(1800);
                                         }
@@ -73,22 +74,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                         })
                 .start();
     }
-
-    private InlineKeyboardMarkup newReplyMarkup() {
-        List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
-        List<List<InlineKeyboardButton>> inlineKeyboardRows = new ArrayList<>();
-        inlineKeyboardButtons = new ArrayList<>();
-        inlineKeyboardRows.add(inlineKeyboardButtons);
-
-        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-        inlineKeyboardButton.setText(EmojiParser.parseToUnicode("arrow_right"));
-        inlineKeyboardButton.setCallbackData("arrow_right");
-
-        inlineKeyboardButtons.add(inlineKeyboardButton);
-
-        return new InlineKeyboardMarkup(inlineKeyboardRows);
-    }
-
     @Override
     public String getBotUsername() {
         return botConfig.getBotName();

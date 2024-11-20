@@ -5,24 +5,18 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
-import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatID;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.HELP_MESSAGE;
 
-public class AddNewCategoryCommandImpl extends CommandHelper implements Command<SendMessage> {
+public class HelpCommandImpl extends CommandHelper implements Command<SendMessage> {
     @Override
     public SendMessage run(Update update) {
         SendMessage sendMessage = new SendMessage();
         String chatID = update.getMessage().getChatId().toString();
         sendMessage.setChatId(chatID);
-        sendMessage.setText(MessageName.WAIT_NEW_CATEGORY_MESSAGE.getMessageName());
-        CallbackDataByChatID callbackDataByChatID =
-                CallbackDataByChatID.builder()
-                        .chatID(chatID)
-                        .callbackData("FromAddNewCategory")
-                        .build();
-        this.botService.saveCallbackData(callbackDataByChatID);
+        botService.deleteCallbackDataByChatID(chatID);
+
+        sendMessage.setText(HELP_MESSAGE.getMessageName());
         return sendMessage;
     }
 }
