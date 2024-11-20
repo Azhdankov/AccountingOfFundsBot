@@ -7,9 +7,6 @@ import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatID;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class AddNewCategoryCommandImpl extends CommandHelper implements Command<SendMessage> {
     @Override
     public SendMessage run(Update update) {

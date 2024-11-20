@@ -1,6 +1,9 @@
 package ru.azhdankov.accountingOfFunds.command.callback;
 
 import com.vdurmont.emoji.EmojiParser;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
@@ -8,11 +11,8 @@ import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.command.KeyboardHelper;
 import ru.azhdankov.accountingOfFunds.model.user.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-public class ChangeModeEmojiCallbackImpl extends CommandHelper implements Command<EditMessageReplyMarkup> {
+public class ChangeModeEmojiCallbackImpl extends CommandHelper
+        implements Command<EditMessageReplyMarkup> {
     @Override
     public EditMessageReplyMarkup run(Update update) {
 
@@ -34,15 +34,16 @@ public class ChangeModeEmojiCallbackImpl extends CommandHelper implements Comman
         }
         String[] singleMultipleModeToInlineKeyboard = singleMultipleMode.toArray(new String[0]);
 
-        HashMap<String,String> singleMultipleModeMap = new HashMap<>();
+        HashMap<String, String> singleMultipleModeMap = new HashMap<>();
         singleMultipleModeMap.put(singleMultipleMode.getFirst(), "SingleMode");
         singleMultipleModeMap.put(singleMultipleMode.getLast(), "MultipleMode");
         // нужен рефакторинг
 
-        KeyboardHelper keyboardHelper = KeyboardHelper.builder()
-                .callBackDataPrefix("ChangeMode")
-                .callBackDataMap(singleMultipleModeMap)
-                .build();
+        KeyboardHelper keyboardHelper =
+                KeyboardHelper.builder()
+                        .callBackDataPrefix("ChangeMode")
+                        .callBackDataMap(singleMultipleModeMap)
+                        .build();
 
         editMessageReplyMarkup.setReplyMarkup(
                 keyboardHelper.getInlineKeyboardMarkup(singleMultipleModeToInlineKeyboard));

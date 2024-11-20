@@ -13,6 +13,7 @@ public class GroupCategoryInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     private String chatID;
     private String categoryKey;
     private String readableCategoryName;

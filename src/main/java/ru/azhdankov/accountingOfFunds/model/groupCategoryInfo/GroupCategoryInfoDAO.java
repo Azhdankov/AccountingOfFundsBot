@@ -1,10 +1,9 @@
 package ru.azhdankov.accountingOfFunds.model.groupCategoryInfo;
 
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public interface GroupCategoryInfoDAO extends CrudRepository<GroupCategoryInfo, String> {

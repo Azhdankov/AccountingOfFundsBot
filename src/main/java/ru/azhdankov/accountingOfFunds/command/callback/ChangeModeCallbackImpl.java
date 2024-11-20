@@ -1,14 +1,13 @@
 package ru.azhdankov.accountingOfFunds.command.callback;
 
+import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.*;
+
+import java.util.UUID;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.model.user.User;
-
-import java.util.UUID;
-
-import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.*;
 
 public class ChangeModeCallbackImpl extends CommandHelper implements Command<SendMessage> {
 
@@ -30,11 +29,12 @@ public class ChangeModeCallbackImpl extends CommandHelper implements Command<Sen
             if (user.isSingleMode()) {
                 sendMessage.setText(MODE_WASNT_CHANGED.getMessageName());
             } else {
-                botService.saveUser(User.builder()
-                        .id(chatID)
-                        .isSingleMode(true)
-                        .pairID(user.getPairID())
-                        .build());
+                botService.saveUser(
+                        User.builder()
+                                .id(chatID)
+                                .isSingleMode(true)
+                                .pairID(user.getPairID())
+                                .build());
                 sendMessage.setText(MODE_WAS_CHANGED_TO_SINGLE.getMessageName());
             }
         } else {
@@ -44,9 +44,8 @@ public class ChangeModeCallbackImpl extends CommandHelper implements Command<Sen
                     user.setPairID(UUID.randomUUID().toString());
                 }
                 botService.saveUser(user);
-                String message = MODE_WAS_CHANGED_TO_GROUP.getMessageName() + "\n"
-                        + URL
-                        + user.getPairID();
+                String message =
+                        MODE_WAS_CHANGED_TO_GROUP.getMessageName() + "\n" + URL + user.getPairID();
                 sendMessage.setText(message);
             } else {
                 sendMessage.setText(MODE_WASNT_CHANGED.getMessageName());

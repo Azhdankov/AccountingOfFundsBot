@@ -1,6 +1,9 @@
 package ru.azhdankov.accountingOfFunds.command;
 
 import com.vdurmont.emoji.EmojiParser;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -8,10 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @Builder
 @Getter
@@ -89,7 +88,8 @@ public class KeyboardHelper {
 
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(EmojiParser.parseToUnicode(":arrow_right:"));
-            inlineKeyboardButton.setCallbackData("NextPage_"+callBackDataPrefix+":"+MAX_BUTTONS);
+            inlineKeyboardButton.setCallbackData(
+                    "NextPage_" + callBackDataPrefix + ":" + MAX_BUTTONS);
 
             inlineKeyboardButtons.add(inlineKeyboardButton);
         } else if (startIndex != 0 && endIndex != 0 && (buttonsText.length != endIndex)) {
@@ -100,18 +100,22 @@ public class KeyboardHelper {
             InlineKeyboardButton previousButton = new InlineKeyboardButton();
             nextButton.setText(EmojiParser.parseToUnicode(":arrow_right:"));
             previousButton.setText(EmojiParser.parseToUnicode(":arrow_left:"));
-            nextButton.setCallbackData("NextPage_"+callBackDataPrefix+":"+(startIndex + MAX_BUTTONS));
-            previousButton.setCallbackData("PreviousPage_"+callBackDataPrefix+":"+(startIndex - MAX_BUTTONS));
+            nextButton.setCallbackData(
+                    "NextPage_" + callBackDataPrefix + ":" + (startIndex + MAX_BUTTONS));
+            previousButton.setCallbackData(
+                    "PreviousPage_" + callBackDataPrefix + ":" + (startIndex - MAX_BUTTONS));
 
             inlineKeyboardButtons.add(previousButton);
             inlineKeyboardButtons.add(nextButton);
-        } else if (buttonsText.length - startIndex <= MAX_BUTTONS && buttonsText.length > MAX_BUTTONS) {
+        } else if (buttonsText.length - startIndex <= MAX_BUTTONS
+                && buttonsText.length > MAX_BUTTONS) {
             inlineKeyboardButtons = new ArrayList<>();
             inlineKeyboardRows.add(inlineKeyboardButtons);
 
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(EmojiParser.parseToUnicode(":arrow_left:"));
-            inlineKeyboardButton.setCallbackData("PreviousPage_"+callBackDataPrefix+":"+(startIndex - MAX_BUTTONS));
+            inlineKeyboardButton.setCallbackData(
+                    "PreviousPage_" + callBackDataPrefix + ":" + (startIndex - MAX_BUTTONS));
 
             inlineKeyboardButtons.add(inlineKeyboardButton);
         }

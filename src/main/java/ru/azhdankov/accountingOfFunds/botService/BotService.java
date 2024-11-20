@@ -2,7 +2,6 @@ package ru.azhdankov.accountingOfFunds.botService;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatID;
@@ -17,15 +16,10 @@ import ru.azhdankov.accountingOfFunds.model.user.UserDAO;
 @Service
 public class BotService {
 
-    @Autowired
-    private UserDAO userDao;
-    @Autowired
-    private CallbackDataByChatIDDAO callbackDataByChatIDDAODao;
-    @Autowired
-    private CategoryInfoDAO categoryInfoDAO;
-    @Autowired
-    private GroupCategoryInfoDAO groupCategoryInfoDAO;
-
+    @Autowired private UserDAO userDao;
+    @Autowired private CallbackDataByChatIDDAO callbackDataByChatIDDAODao;
+    @Autowired private CategoryInfoDAO categoryInfoDAO;
+    @Autowired private GroupCategoryInfoDAO groupCategoryInfoDAO;
 
     public List<User> findUsersByPairID(String pairID) {
         return userDao.findAllByPairID(pairID);
@@ -47,14 +41,19 @@ public class BotService {
         User user = findUserByChatID(chatID);
         if (!user.isSingleMode()) {
             List<CategoryInfo> categoryInfoList = new ArrayList<>();
-            groupCategoryInfoDAO.findAllByPairID(user.getPairID())
-                    .forEach(e -> categoryInfoList.add(CategoryInfo.builder()
-                            .id(e.getId())
-                            .categoryKey(e.getCategoryKey())
-                            .chatID(e.getChatID())
-                            .readableCategoryName(e.getReadableCategoryName())
-                            .amount(e.getAmount())
-                            .build()));
+            groupCategoryInfoDAO
+                    .findAllByPairID(user.getPairID())
+                    .forEach(
+                            e ->
+                                    categoryInfoList.add(
+                                            CategoryInfo.builder()
+                                                    .id(e.getId())
+                                                    .categoryKey(e.getCategoryKey())
+                                                    .chatID(e.getChatID())
+                                                    .readableCategoryName(
+                                                            e.getReadableCategoryName())
+                                                    .amount(e.getAmount())
+                                                    .build()));
             return categoryInfoList;
         }
         return categoryInfoDAO.findAllByChatID(chatID);
@@ -63,14 +62,15 @@ public class BotService {
     public void saveCategoryInfo(CategoryInfo categoryInfo) {
         User user = findUserByChatID(categoryInfo.getChatID());
         if (!user.isSingleMode()) {
-            GroupCategoryInfo groupCategoryInfo = GroupCategoryInfo.builder()
-                    .id(categoryInfo.getId())
-                    .readableCategoryName(categoryInfo.getReadableCategoryName())
-                    .categoryKey(categoryInfo.getCategoryKey())
-                    .amount(categoryInfo.getAmount())
-                    .chatID(categoryInfo.getChatID())
-                    .pairID(user.getPairID())
-                    .build();
+            GroupCategoryInfo groupCategoryInfo =
+                    GroupCategoryInfo.builder()
+                            .id(categoryInfo.getId())
+                            .readableCategoryName(categoryInfo.getReadableCategoryName())
+                            .categoryKey(categoryInfo.getCategoryKey())
+                            .amount(categoryInfo.getAmount())
+                            .chatID(categoryInfo.getChatID())
+                            .pairID(user.getPairID())
+                            .build();
             groupCategoryInfoDAO.save(groupCategoryInfo);
         } else {
             categoryInfoDAO.save(categoryInfo);

@@ -1,12 +1,11 @@
 package ru.azhdankov.accountingOfFunds.command.impl;
 
+import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.HELP_MESSAGE;
+
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
-import ru.azhdankov.accountingOfFunds.messageDictionary.MessageName;
-
-import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.HELP_MESSAGE;
 
 public class HelpCommandImpl extends CommandHelper implements Command<SendMessage> {
     @Override

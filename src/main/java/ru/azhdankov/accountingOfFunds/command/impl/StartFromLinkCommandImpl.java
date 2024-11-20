@@ -1,5 +1,7 @@
 package ru.azhdankov.accountingOfFunds.command.impl;
 
+import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.*;
+
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
@@ -7,8 +9,6 @@ import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.command.KeyboardHelper;
 import ru.azhdankov.accountingOfFunds.messageDictionary.CommandName;
 import ru.azhdankov.accountingOfFunds.model.user.User;
-
-import static ru.azhdankov.accountingOfFunds.messageDictionary.MessageName.*;
 
 public class StartFromLinkCommandImpl extends CommandHelper implements Command<SendMessage> {
     @Override
@@ -27,7 +27,10 @@ public class StartFromLinkCommandImpl extends CommandHelper implements Command<S
                         CommandName.MONTH_SUM_COMMAND.getCommandName(),
                         CommandName.REMOVE_ALL_DATA_COMMAND.getCommandName()));
 
-        String pairID = update.getMessage().getText().substring(update.getMessage().getText().indexOf(" ") + 1);
+        String pairID =
+                update.getMessage()
+                        .getText()
+                        .substring(update.getMessage().getText().indexOf(" ") + 1);
         if (botService.findUsersByPairID(pairID).isEmpty()) {
             sendMessage.setText(THERE_IS_NO_PAIR_FOR_START_MESSAGE.getMessageName());
             return sendMessage;
@@ -40,11 +43,8 @@ public class StartFromLinkCommandImpl extends CommandHelper implements Command<S
 
         sendMessage.setText(WELCOME_FROM_LINK.getMessageName());
 
-        this.botService.saveUser(User.builder()
-                .id(chatID)
-                .isSingleMode(false)
-                .pairID(pairID)
-                .build());
+        this.botService.saveUser(
+                User.builder().id(chatID).isSingleMode(false).pairID(pairID).build());
         return sendMessage;
     }
 }

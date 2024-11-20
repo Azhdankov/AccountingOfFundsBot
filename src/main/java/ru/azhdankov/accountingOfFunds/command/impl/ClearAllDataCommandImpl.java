@@ -28,15 +28,16 @@ public class ClearAllDataCommandImpl extends CommandHelper implements Command<Se
         yesNoAnswers.add("Нет");
         String[] yesNoAnswersToInlineKeyboard = yesNoAnswers.toArray(new String[0]);
 
-        HashMap<String,String> yesNoKeys = new HashMap<>();
+        HashMap<String, String> yesNoKeys = new HashMap<>();
         yesNoKeys.put("Да", "yes");
         yesNoKeys.put("Нет", "no");
         // нужен рефакторинг
 
-        KeyboardHelper keyboardHelper = KeyboardHelper.builder()
-                .callBackDataPrefix("ApproveForClearData")
-                .callBackDataMap(yesNoKeys)
-                .build();
+        KeyboardHelper keyboardHelper =
+                KeyboardHelper.builder()
+                        .callBackDataPrefix("ApproveForClearData")
+                        .callBackDataMap(yesNoKeys)
+                        .build();
 
         sendMessage.setReplyMarkup(
                 keyboardHelper.getInlineKeyboardMarkup(yesNoAnswersToInlineKeyboard));

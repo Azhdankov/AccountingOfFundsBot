@@ -39,10 +39,11 @@ public class AddSumToCategoryCommandImpl extends CommandHelper implements Comman
         Collections.sort(readableCategoryList);
         String[] categoriesToInlineKeyboard = readableCategoryList.toArray(new String[0]);
 
-        KeyboardHelper keyboardHelper = KeyboardHelper.builder()
-                .callBackDataPrefix("AddSum")
-                .callBackDataMap(categoryIDMap)
-                .build();
+        KeyboardHelper keyboardHelper =
+                KeyboardHelper.builder()
+                        .callBackDataPrefix("AddSum")
+                        .callBackDataMap(categoryIDMap)
+                        .build();
 
         sendMessage.setReplyMarkup(
                 keyboardHelper.getInlineKeyboardMarkup(categoriesToInlineKeyboard));

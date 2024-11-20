@@ -30,10 +30,7 @@ public class StartCommandImpl extends CommandHelper implements Command<SendMessa
                         .callbackData("FromStartCommand")
                         .build();
         this.botService.saveCallbackData(callbackDataByChatID);
-        this.botService.saveUser(User.builder()
-                .id(chatID)
-                .isSingleMode(true)
-                .build());
+        this.botService.saveUser(User.builder().id(chatID).isSingleMode(true).build());
         return sendMessage;
     }
 }

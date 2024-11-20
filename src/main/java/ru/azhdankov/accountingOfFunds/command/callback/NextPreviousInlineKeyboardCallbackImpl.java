@@ -1,18 +1,17 @@
 package ru.azhdankov.accountingOfFunds.command.callback;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.command.KeyboardHelper;
 
-import java.security.Key;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-public class NextPreviousInlineKeyboardCallbackImpl extends CommandHelper implements Command<EditMessageReplyMarkup> {
+public class NextPreviousInlineKeyboardCallbackImpl extends CommandHelper
+        implements Command<EditMessageReplyMarkup> {
     @Override
     public EditMessageReplyMarkup run(Update update) {
 
@@ -35,19 +34,23 @@ public class NextPreviousInlineKeyboardCallbackImpl extends CommandHelper implem
         String[] categoriesToInlineKeyboard = readableCategoryList.toArray(new String[0]);
 
         int startIndex = Integer.parseInt(callbackData.substring(callbackData.indexOf(":") + 1));
-        int endIndex = readableCategoryList.size() - startIndex > KeyboardHelper.MAX_BUTTONS?
-                startIndex + KeyboardHelper.MAX_BUTTONS : readableCategoryList.size();
+        int endIndex =
+                readableCategoryList.size() - startIndex > KeyboardHelper.MAX_BUTTONS
+                        ? startIndex + KeyboardHelper.MAX_BUTTONS
+                        : readableCategoryList.size();
 
-        String callBackDataPrefix = callbackData.substring(callbackData.indexOf("_") + 1,
-                callbackData.indexOf(":"));
-        KeyboardHelper keyboardHelper = KeyboardHelper.builder()
-                .startIndex(startIndex)
-                .endIndex(endIndex)
-                .callBackDataPrefix(callBackDataPrefix)
-                .callBackDataMap(categoryIDMap)
-                .build();
+        String callBackDataPrefix =
+                callbackData.substring(callbackData.indexOf("_") + 1, callbackData.indexOf(":"));
+        KeyboardHelper keyboardHelper =
+                KeyboardHelper.builder()
+                        .startIndex(startIndex)
+                        .endIndex(endIndex)
+                        .callBackDataPrefix(callBackDataPrefix)
+                        .callBackDataMap(categoryIDMap)
+                        .build();
 
-        editMessageReplyMarkup.setReplyMarkup(keyboardHelper.getInlineKeyboardMarkup(categoriesToInlineKeyboard));
+        editMessageReplyMarkup.setReplyMarkup(
+                keyboardHelper.getInlineKeyboardMarkup(categoriesToInlineKeyboard));
         return editMessageReplyMarkup;
     }
 }
