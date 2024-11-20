@@ -1,10 +1,6 @@
 package ru.azhdankov.accountingOfFunds.telegramBot;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
-
-import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,8 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.azhdankov.accountingOfFunds.command.Command;
 import ru.azhdankov.accountingOfFunds.command.CommandWrapper;
@@ -53,6 +47,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                                     Object o = e.run(update);
                                     if (o instanceof SendMessage sendMessage) {
                                         messageID = execute(sendMessage).getMessageId();
+                                        /* надо что-то придумать с тем, чтобы уходить в sleep только с нужными командами * */
                                         if (commandList.size() > 1) {
                                             Thread.sleep(1800);
                                         }
@@ -61,8 +56,13 @@ public class TelegramBot extends TelegramLongPollingBot {
                                         editMessageText.setMessageId(messageID);
                                         execute(editMessageText);
                                     }
-                                    if (o instanceof EditMessageReplyMarkup editMessageReplyMarkup) {
-                                        messageID = update.getCallbackQuery().getMessage().getMessageId();
+                                    if (o
+                                            instanceof
+                                            EditMessageReplyMarkup editMessageReplyMarkup) {
+                                        messageID =
+                                                update.getCallbackQuery()
+                                                        .getMessage()
+                                                        .getMessageId();
                                         editMessageReplyMarkup.setMessageId(messageID);
                                         execute(editMessageReplyMarkup);
                                     }
@@ -72,21 +72,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                             }
                         })
                 .start();
-    }
-
-    private InlineKeyboardMarkup newReplyMarkup() {
-        List<InlineKeyboardButton> inlineKeyboardButtons = new ArrayList<>();
-        List<List<InlineKeyboardButton>> inlineKeyboardRows = new ArrayList<>();
-        inlineKeyboardButtons = new ArrayList<>();
-        inlineKeyboardRows.add(inlineKeyboardButtons);
-
-        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-        inlineKeyboardButton.setText(EmojiParser.parseToUnicode("arrow_right"));
-        inlineKeyboardButton.setCallbackData("arrow_right");
-
-        inlineKeyboardButtons.add(inlineKeyboardButton);
-
-        return new InlineKeyboardMarkup(inlineKeyboardRows);
     }
 
     @Override

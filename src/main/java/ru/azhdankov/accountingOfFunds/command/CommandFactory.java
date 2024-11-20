@@ -41,6 +41,7 @@ public class CommandFactory {
                         break;
                     case String s when s.startsWith("ChangeMode"):
                         commandList.add(new ChangeModeCallbackImpl());
+                        commandList.add(new ChangeModeEmojiCallbackImpl());
                         break;
                     default:
                         break;
@@ -51,8 +52,14 @@ public class CommandFactory {
                     case "/start":
                         commandList.add(new StartCommandImpl());
                         break;
+                    case String s when s.startsWith("/start"):
+                        commandList.add(new StartFromLinkCommandImpl());
+                        break;
                     case "/mode":
                         commandList.add(new ChangeModeCommandImpl());
+                        break;
+                    case "/help":
+                        commandList.add(new HelpCommandImpl());
                         break;
                     case String s when s.startsWith("Все категории введены"):
                         commandList.add(new AllCategoriesEnteredCommandImpl());

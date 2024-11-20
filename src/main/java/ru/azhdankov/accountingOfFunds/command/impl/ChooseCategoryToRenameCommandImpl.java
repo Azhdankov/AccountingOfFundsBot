@@ -39,10 +39,11 @@ public class ChooseCategoryToRenameCommandImpl extends CommandHelper
 
         String[] categoriesToInlineKeyboard = readableCategoryList.toArray(new String[0]);
 
-        KeyboardHelper keyboardHelper = KeyboardHelper.builder()
-                .callBackDataPrefix("CheckRenamedCategory")
-                .callBackDataMap(categoryIDMap)
-                .build();
+        KeyboardHelper keyboardHelper =
+                KeyboardHelper.builder()
+                        .callBackDataPrefix("CheckRenamedCategory")
+                        .callBackDataMap(categoryIDMap)
+                        .build();
 
         sendMessage.setReplyMarkup(
                 keyboardHelper.getInlineKeyboardMarkup(categoriesToInlineKeyboard));
