@@ -12,7 +12,7 @@ import ru.azhdankov.accountingOfFunds.model.user.User;
 public class ChangeModeCallbackImpl extends CommandHelper implements Command<SendMessage> {
 
     private final String SINGLE_MODE = "SingleMode";
-    private final String URL = "https://t.me/TestAccountingOfFundsBot?start=";
+    private final String URL = "https://t.me/AccountingOfFundsBot?start=";
 
     @Override
     public SendMessage run(Update update) {
