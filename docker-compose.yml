@@ -1,6 +1,5 @@
 services:
   app:
-#    build: .
     image: accountingoffunds
     container_name: accountingoffunds
     ports:

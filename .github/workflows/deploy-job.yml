@@ -18,6 +18,6 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v3
       - name: docker compose build
-        run: docker-compose build
+        run: docker build -t accountingoffunds .
       - name: docker compose
         run: docker compose up -d
