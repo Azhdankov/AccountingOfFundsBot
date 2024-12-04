@@ -1,6 +1,7 @@
 package ru.azhdankov.accountingOfFunds.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +17,32 @@ public class CommandFactory {
 
     @Autowired private CallbackDataByChatIDDAO callbackDataByChatIDDAO;
 
-    public List<Command<?>> getCommandList(Update update, BotService botService) {
+    public HashMap<Command<?>, Boolean> getCommandMap(Update update, BotService botService) {
 
-        List<Command<?>> commandList = new ArrayList<>();
+        HashMap<Command<?>, Boolean> commandMap = new HashMap<>();
 
         if ((update.hasMessage() && update.getMessage().hasText()) || update.hasCallbackQuery()) {
             if (update.hasCallbackQuery()) {
                 String callbackDataFromButton = update.getCallbackQuery().getData();
                 switch (callbackDataFromButton) {
                     case String s when s.startsWith("AddSum"):
-                        commandList.add(new AddSumCallbackImpl());
+                        commandMap.put(new AddSumCallbackImpl(), false);
                         break;
                     case String s when s.startsWith("CheckRenamedCategory"):
-                        commandList.add(new CheckRenamedCategoryCallbackImpl());
+                        commandMap.put(new CheckRenamedCategoryCallbackImpl(), false);
                         break;
                     case String s when s.startsWith("ApproveForClearData"):
-                        commandList.add(new ApproveForClearDataCallbackImpl());
+                        commandMap.put(new ApproveForClearDataCallbackImpl(), false);
                         break;
                     case String s when s.startsWith("Remove"):
-                        commandList.add(new ClearDataCallbackImpl());
+                        commandMap.put(new ClearDataCallbackImpl(), false);
                         break;
                     case String s when s.startsWith("NextPage_") || s.startsWith("PreviousPage_"):
-                        commandList.add(new NextPreviousInlineKeyboardCallbackImpl());
+                        commandMap.put(new NextPreviousInlineKeyboardCallbackImpl(), false);
                         break;
                     case String s when s.startsWith("ChangeMode"):
-                        commandList.add(new ChangeModeCallbackImpl());
-                        commandList.add(new ChangeModeEmojiCallbackImpl());
+                        commandMap.put(new ChangeModeCallbackImpl(), false);
+                        commandMap.put(new ChangeModeEmojiCallbackImpl(), false);
                         break;
                     default:
                         break;
@@ -50,39 +51,39 @@ public class CommandFactory {
                 String message = update.getMessage().getText();
                 switch (message) {
                     case "/start":
-                        commandList.add(new StartCommandImpl());
+                        commandMap.put(new StartCommandImpl(), false);
                         break;
                     case String s when s.startsWith("/start"):
-                        commandList.add(new StartFromLinkCommandImpl());
+                        commandMap.put(new StartFromLinkCommandImpl(), false);
                         break;
                     case "/mode":
-                        commandList.add(new ChangeModeCommandImpl());
+                        commandMap.put(new ChangeModeCommandImpl(), false);
                         break;
                     case "/help":
-                        commandList.add(new HelpCommandImpl());
+                        commandMap.put(new HelpCommandImpl(), false);
                         break;
                     case String s when s.startsWith("Все категории введены"):
-                        commandList.add(new AllCategoriesEnteredCommandImpl());
+                        commandMap.put(new AllCategoriesEnteredCommandImpl(), false);
                         break;
                     case String s when s.startsWith("Добавить новую категорию"):
-                        commandList.add(new AddNewCategoryCommandImpl());
+                        commandMap.put(new AddNewCategoryCommandImpl(), false);
                         break;
                     case String s when s.contains("Вывести")
                             && s.contains("все категории на экран"):
-                        commandList.add(new ShowPreLoadEmojiImpl());
-                        commandList.add(new ShowAllCategoriesCommandImpl());
+                        commandMap.put(new ShowPreLoadEmojiImpl(), true);
+                        commandMap.put(new ShowAllCategoriesCommandImpl(), false);
                         break;
                     case String s when s.startsWith("Добавить сумму на категорию"):
-                        commandList.add(new AddSumToCategoryCommandImpl());
+                        commandMap.put(new AddSumToCategoryCommandImpl(), false);
                         break;
                     case String s when s.startsWith("Переименовать категорию"):
-                        commandList.add(new ChooseCategoryToRenameCommandImpl());
+                        commandMap.put(new ChooseCategoryToRenameCommandImpl(), false);
                         break;
                     case "Сумма за месяц":
-                        commandList.add(new MonthSumCommandImpl());
+                        commandMap.put(new MonthSumCommandImpl(), false);
                         break;
                     case "Очистить все данные":
-                        commandList.add(new ClearAllDataCommandImpl());
+                        commandMap.put(new ClearAllDataCommandImpl(), false);
                         break;
                     default:
                         String chatID = update.getMessage().getChatId().toString();
@@ -92,24 +93,24 @@ public class CommandFactory {
                         String callbackData =
                                 callbackDataByChatIDDAO.findById(chatID).get().getCallbackData();
                         if (callbackData.equals("FromAddSum")) {
-                            commandList.add(new EnterTheAmountCommandImpl());
+                            commandMap.put(new EnterTheAmountCommandImpl(), false);
                             break;
                         } else if (callbackData.equals("FromCheckRenamedCategory")) {
-                            commandList.add(new ApplyRenamedCategoryCommandImpl());
+                            commandMap.put(new ApplyRenamedCategoryCommandImpl(), false);
                             break;
                         } else if (callbackData.equals("FromAddNewCategory")
                                 || callbackData.equals("FromStartCommand")
                                 || callbackData.equals("FromApproveForClearData")) {
-                            commandList.add(new SaveNewCategoryCommandImpl());
+                            commandMap.put(new SaveNewCategoryCommandImpl(), false);
                             break;
                         }
                 }
             }
-            commandList.forEach(
-                    e -> {
-                        Objects.requireNonNull(e).setBotService(botService);
+            commandMap.forEach(
+                    (k,v) -> {
+                        Objects.requireNonNull(k).setBotService(botService);
                     });
         }
-        return commandList;
+        return commandMap;
     }
 }

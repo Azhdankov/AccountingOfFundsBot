@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -40,22 +41,24 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         new Thread(
                         () -> {
-                            List<Command<?>> commandList = commandWrapper.getSendObject(update);
+                            HashMap<Command<?>, Boolean> commandMap = commandWrapper.getCommandMap(update);
                             Integer messageID = 0;
-                            for (Command<?> e : commandList) {
+                            for (Map.Entry<Command<?>, Boolean> entry : commandMap.entrySet()) {
                                 try {
-                                    Object o = e.run(update);
+                                    Object o = entry.getKey().run(update);
+
                                     if (o instanceof SendMessage sendMessage) {
                                         messageID = execute(sendMessage).getMessageId();
-                                        /* надо что-то придумать с тем, чтобы уходить в sleep только с нужными командами * */
-                                        if (commandList.size() > 1) {
+                                        if (entry.getValue()) {
                                             Thread.sleep(1800);
                                         }
                                     }
+
                                     if (o instanceof EditMessageText editMessageText) {
                                         editMessageText.setMessageId(messageID);
                                         execute(editMessageText);
                                     }
+
                                     if (o
                                             instanceof
                                             EditMessageReplyMarkup editMessageReplyMarkup) {
@@ -66,6 +69,12 @@ public class TelegramBot extends TelegramLongPollingBot {
                                         editMessageReplyMarkup.setMessageId(messageID);
                                         execute(editMessageReplyMarkup);
                                     }
+
+                                    if (update.hasCallbackQuery()) {
+                                        AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery(update.getCallbackQuery().getId());
+                                        execute(answerCallbackQuery);
+                                    }
+
                                 } catch (TelegramApiException | InterruptedException ex) {
                                     log.error(ex.getMessage());
                                 }
