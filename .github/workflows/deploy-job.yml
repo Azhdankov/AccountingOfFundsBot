@@ -21,3 +21,12 @@ jobs:
         run: docker build -t accountingoffunds .
       - name: docker compose
         run: docker compose up -d
+
+  cleanup:
+    runs-on: self-hosted
+    needs: deploy
+    steps:
+      - name: prune images
+        run: docker image prune -f
+      - name: prune cache
+        run: docker builder prune -f
