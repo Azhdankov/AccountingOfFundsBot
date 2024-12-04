@@ -1,7 +1,6 @@
 package ru.azhdankov.accountingOfFunds.command;
 
 import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -105,7 +104,7 @@ public class CommandFactory {
                 }
             }
             commandMap.forEach(
-                    (k,v) -> {
+                    (k, v) -> {
                         Objects.requireNonNull(k).setBotService(botService);
                     });
         }

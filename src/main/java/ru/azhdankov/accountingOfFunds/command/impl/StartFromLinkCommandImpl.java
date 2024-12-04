@@ -37,7 +37,8 @@ public class StartFromLinkCommandImpl extends CommandHelper implements Command<S
         }
 
         if (botService.findUserByChatID(chatID) != null) {
-            if (botService.findUserByChatID(chatID).getPairID() != null && botService.findUserByChatID(chatID).getPairID().equals(pairID)) {
+            if (botService.findUserByChatID(chatID).getPairID() != null
+                    && botService.findUserByChatID(chatID).getPairID().equals(pairID)) {
                 sendMessage.setText(CURRENT_MODE_WAS_CHANGED_TO_GROUP_MESSAGE.getMessageName());
             } else if (botService.findUserByChatID(chatID).getPairID() != null) {
                 sendMessage.setText(PREVIOUS_GROUP_WAS_REMOVED_MESSAGE.getMessageName());

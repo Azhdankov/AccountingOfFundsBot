@@ -9,8 +9,9 @@ public enum MessageName {
     THERE_IS_NO_PAIR_FOR_START_MESSAGE("Ссылка для запуска невалидна"),
     CURRENT_MODE_WAS_CHANGED_TO_GROUP_MESSAGE("Режим был изменен на групповой"),
     GROUP_MODE_WAS_APPLIED_MESSAGE("Групповой режим был применен"),
-    PREVIOUS_GROUP_WAS_REMOVED_MESSAGE("Привязка была изменена на новую группу. " +
-            "Если хотите вернуть предыдущую группу, то запросите ссылку у членов предыдущей группы"),
+    PREVIOUS_GROUP_WAS_REMOVED_MESSAGE(
+            "Привязка была изменена на новую группу. "
+                    + "Если хотите вернуть предыдущую группу, то запросите ссылку у членов предыдущей группы"),
     WELCOME_FROM_LINK(
             "Добро пожаловать! "
                     + "\n"
