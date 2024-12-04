@@ -1,7 +1,6 @@
 package ru.azhdankov.accountingOfFunds.command;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,7 +13,7 @@ public class CommandWrapper {
 
     @Autowired private CommandFactory commandFactory;
 
-    public HashMap<Command<?>, Boolean> getCommandMap(Update update) {
+    public LinkedHashMap<Command<?>, Boolean> getCommandMap(Update update) {
         return commandFactory.getCommandMap(update, botService);
     }
 }

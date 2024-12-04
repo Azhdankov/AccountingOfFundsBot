@@ -1,9 +1,7 @@
 package ru.azhdankov.accountingOfFunds.command;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,9 +15,9 @@ public class CommandFactory {
 
     @Autowired private CallbackDataByChatIDDAO callbackDataByChatIDDAO;
 
-    public HashMap<Command<?>, Boolean> getCommandMap(Update update, BotService botService) {
+    public LinkedHashMap<Command<?>, Boolean> getCommandMap(Update update, BotService botService) {
 
-        HashMap<Command<?>, Boolean> commandMap = new HashMap<>();
+        LinkedHashMap<Command<?>, Boolean> commandMap = new LinkedHashMap<>();
 
         if ((update.hasMessage() && update.getMessage().hasText()) || update.hasCallbackQuery()) {
             if (update.hasCallbackQuery()) {

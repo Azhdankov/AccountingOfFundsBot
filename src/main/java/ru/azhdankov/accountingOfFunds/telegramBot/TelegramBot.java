@@ -41,7 +41,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         new Thread(
                         () -> {
-                            HashMap<Command<?>, Boolean> commandMap = commandWrapper.getCommandMap(update);
+                            LinkedHashMap<Command<?>, Boolean> commandMap = commandWrapper.getCommandMap(update);
                             Integer messageID = 0;
                             for (Map.Entry<Command<?>, Boolean> entry : commandMap.entrySet()) {
                                 try {
@@ -52,11 +52,13 @@ public class TelegramBot extends TelegramLongPollingBot {
                                         if (entry.getValue()) {
                                             Thread.sleep(1800);
                                         }
+                                        if (update.hasMessage()) System.out.println(update.getMessage().getText());
                                     }
 
                                     if (o instanceof EditMessageText editMessageText) {
                                         editMessageText.setMessageId(messageID);
                                         execute(editMessageText);
+                                        if (update.hasMessage()) System.out.println(update.getMessage().getText());
                                     }
 
                                     if (o
@@ -68,16 +70,21 @@ public class TelegramBot extends TelegramLongPollingBot {
                                                         .getMessageId();
                                         editMessageReplyMarkup.setMessageId(messageID);
                                         execute(editMessageReplyMarkup);
-                                    }
-
-                                    if (update.hasCallbackQuery()) {
-                                        AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery(update.getCallbackQuery().getId());
-                                        execute(answerCallbackQuery);
+                                        if (update.hasMessage()) System.out.println(update.getMessage().getText());
                                     }
 
                                 } catch (TelegramApiException | InterruptedException ex) {
                                     log.error(ex.getMessage());
                                 }
+                            }
+                            if (update.hasCallbackQuery()) {
+                                AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery(update.getCallbackQuery().getId());
+                                try {
+                                    execute(answerCallbackQuery);
+                                } catch (TelegramApiException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                if (update.hasCallbackQuery()) System.out.println(update.getCallbackQuery().getData());
                             }
                         })
                 .start();
