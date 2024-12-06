@@ -1,4 +1,4 @@
-package ru.azhdankov.accountingOfFunds.command.callback;
+package ru.azhdankov.accountingOfFunds.command.callbackImpl;
 
 import java.util.ArrayList;
 import java.util.Collections;

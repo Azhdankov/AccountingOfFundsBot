@@ -1,4 +1,4 @@
-package ru.azhdankov.accountingOfFunds.command.callback;
+package ru.azhdankov.accountingOfFunds.command.callbackImpl;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -7,7 +7,8 @@ import ru.azhdankov.accountingOfFunds.command.CommandHelper;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatID;
 import ru.azhdankov.accountingOfFunds.model.categoryInfo.CategoryInfo;
 
-public class AddSumCallbackImpl extends CommandHelper implements Command<SendMessage> {
+public class CheckRenamedCategoryCallbackImpl extends CommandHelper
+        implements Command<SendMessage> {
     @Override
     public SendMessage run(Update update) {
 
@@ -15,7 +16,6 @@ public class AddSumCallbackImpl extends CommandHelper implements Command<SendMes
         String callbackData = update.getCallbackQuery().getData();
         String chatID = update.getCallbackQuery().getMessage().getChatId().toString();
         sendMessage.setChatId(chatID);
-
         String categoryID = callbackData.substring(callbackData.indexOf("_") + 1);
 
         CategoryInfo currentCategoryInfo = botService.findCategoryInfoByID(categoryID);
@@ -23,17 +23,16 @@ public class AddSumCallbackImpl extends CommandHelper implements Command<SendMes
         sendMessage.setText(
                 "Выбрана категория "
                         + currentCategoryInfo.getReadableCategoryName()
-                        + ". Введите сумму");
+                        + ". Введите новое имя");
 
         CallbackDataByChatID callbackDataByChatID =
                 CallbackDataByChatID.builder()
                         .chatID(chatID)
-                        .callbackData("FromAddSum")
+                        .callbackData("FromCheckRenamedCategory")
                         .callbackCategoryID(categoryID)
                         .build();
 
         botService.saveCallbackData(callbackDataByChatID);
-
         return sendMessage;
     }
 }

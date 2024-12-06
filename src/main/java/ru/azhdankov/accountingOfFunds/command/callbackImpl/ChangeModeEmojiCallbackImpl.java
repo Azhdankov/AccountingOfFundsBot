@@ -1,4 +1,4 @@
-package ru.azhdankov.accountingOfFunds.command.callback;
+package ru.azhdankov.accountingOfFunds.command.callbackImpl;
 
 import com.vdurmont.emoji.EmojiParser;
 import java.util.ArrayList;

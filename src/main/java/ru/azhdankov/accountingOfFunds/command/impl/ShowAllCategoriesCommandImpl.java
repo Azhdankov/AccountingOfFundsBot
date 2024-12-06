@@ -53,7 +53,8 @@ public class ShowAllCategoriesCommandImpl extends CommandHelper
                 .findAllCategoryInfoByChatID(chatID)
                 .forEach(
                         e -> {
-                            categories.append(e.getReadableCategoryName()).append(",");
+                            categories.append(e.getReadableCategoryName().contains(",")?e.getReadableCategoryName().replace(",","///"):
+                                    e.getReadableCategoryName()).append(",");
                             amounts.append(e.getAmount()).append(",");
                         });
 

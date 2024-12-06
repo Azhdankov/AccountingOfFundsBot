@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.azhdankov.accountingOfFunds.botService.BotService;
-import ru.azhdankov.accountingOfFunds.command.callback.*;
+import ru.azhdankov.accountingOfFunds.command.callbackImpl.*;
 import ru.azhdankov.accountingOfFunds.command.impl.*;
 import ru.azhdankov.accountingOfFunds.model.callbackData.CallbackDataByChatIDDAO;
 
